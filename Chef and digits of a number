@@ -1,0 +1,19 @@
+import java.io.*;
+import java.util.*;
+class change{
+	public static void main(String a[])throws IOException{
+		BufferedReader bb=new BufferedReader(new InputStreamReader(System.in));
+	long t=Integer.parseInt(bb.readLine());
+		while(t-->0)
+		{String s=bb.readLine();
+		 int m=0,n=0;
+		for(int i=0;i<s.length();i++){int p = s.charAt(i);
+		
+		if(p==48)m++;
+		else
+			n++;
+			}
+			if(m==1||n==1){System.out.println("Yes");}
+		else
+			System.out.println("No");
+}}}
