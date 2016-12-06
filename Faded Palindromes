@@ -1,0 +1,32 @@
+import java.io.*;
+import java.util.*;
+class change{
+	public static void main(String a[])throws IOException{
+		BufferedReader bb=new BufferedReader(new InputStreamReader(System.in));
+		long t=Integer.parseInt(bb.readLine());
+		while(t-->0)
+		{String s=bb.readLine();
+			int p= s.length()-1;
+ 
+			StringBuffer ss= new StringBuffer(s);
+			int m=0;
+			int j=0;
+			while(j<=s.length()/2){
+				if(s.charAt(j)=='.'||s.charAt(p-j)=='.'){ if(s.charAt(j)=='.'&&s.charAt(p-j)=='.'){ss.setCharAt(j,'a');
+						ss.setCharAt(p-j,'a');}
+					else if(s.charAt(j)=='.'){char n= ss.charAt(p-j);
+						ss.setCharAt(j,n);}
+					else if(s.charAt(p-j)=='.'){char n= ss.charAt(j);
+						ss.setCharAt(p-j,n);}}
+				else if(s.charAt(j)==s.charAt(p-j)){
+				}
+				else{ System.out.println(-1);
+					m++;
+					break;}
+				
+				
+ 
+				j++;}
+			if(m==0){System.out.println(ss.toString());}
+		}
+	}} 
