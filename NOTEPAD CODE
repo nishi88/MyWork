@@ -1,0 +1,164 @@
+
+package notepad;
+
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.*;
+import java.util.*;
+import javafx.scene.layout.Border;
+
+public class Notepad {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        JFrame frame = new View();
+             
+        frame.setTitle("NOTEPAD");
+        frame.setVisible(true);
+        frame.setSize(1000, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(true);
+        frame.setLocationRelativeTo(null);
+    }
+
+}
+
+class View extends JFrame {
+
+    int fileToOpen;
+    int fileToSave;
+    JFileChooser fileOpen;
+            JTextArea textArea = new JTextArea();
+     JTextArea t= new JTextArea();
+    JFileChooser fileSave;
+
+    View() {
+        MenuBar mB = new MenuBar();
+        MenuItem mT = new MenuItem();
+        setMenuBar(mB);
+
+        Menu file = new Menu("File");
+        mB.add(file);
+        MenuItem newOption = new MenuItem("New");
+        MenuItem open = new MenuItem("Open");
+        MenuItem save = new MenuItem("Save");
+        MenuItem save2 = new MenuItem("Save Keyword");
+        MenuItem close = new MenuItem("Close");
+        file.add(newOption);
+        file.add(open);
+        file.add(save);
+file.add(save2);
+        file.add(close);
+ build();
+        //getContentPane().add(textArea,BoxLayout.LINE_AXIS);
+        newOption.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                textArea.setText("");
+            }
+        });
+
+        open.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                openFile();
+                if (fileToOpen == JFileChooser.APPROVE_OPTION) {
+                    textArea.setText("");
+                    try {
+                        Scanner scan = new Scanner(new FileReader(fileOpen.getSelectedFile().getPath()));
+                        while (scan.hasNext()) {
+                            textArea.append(scan.nextLine());
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+            }
+        });
+
+        save.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                saveFile();
+                if (fileToSave == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        BufferedWriter out = new BufferedWriter(new FileWriter(fileSave.getSelectedFile().getPath()));
+                        out.write(textArea.getText());
+                        out.close();
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+            }
+        });
+         save2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                saveFile();
+                if (fileToSave == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        BufferedWriter out = new BufferedWriter(new FileWriter(fileSave.getSelectedFile().getPath()));
+                        out.write(t.getText());
+                        out.close();
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+            }
+        });
+
+        close.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+
+    public void openFile() {
+        JFileChooser open = new JFileChooser();
+        int option = open.showOpenDialog(this);
+        fileToOpen = option;
+        fileOpen = open;
+    }
+
+    public void saveFile() {
+        JFileChooser save = new JFileChooser();
+        int option = save.showOpenDialog(this);
+        fileToSave = option;
+        fileSave = save;
+    }
+    public void build(){
+      JLabel l1 = new JLabel("Key Words");
+
+        javax.swing.border.Border border = BorderFactory.createLineBorder(Color.BLACK);
+   Container contentPane = getContentPane();
+GridBagLayout gridbag = new GridBagLayout();
+GridBagConstraints c = new GridBagConstraints();
+contentPane.setLayout(gridbag);
+c.fill = GridBagConstraints.HORIZONTAL; 
+c.weightx = 0.05;
+c.gridx = 0;
+c.gridy =0;c.ipady = 100;
+gridbag.setConstraints(l1, c);
+contentPane.add(l1);
+c.weightx = 0.95;
+
+c.gridx = 1;
+c.gridy = 0;
+gridbag.setConstraints(t, c);
+contentPane.add(t);
+c.ipady = 500;      //make this component tall
+c.weightx = 0.0;
+c.gridwidth = 3;
+c.gridx = 0;
+c.gridy = 1;
+gridbag.setConstraints(textArea, c);
+contentPane.add(textArea);
+t.setBorder(border);
+textArea.setBorder(border);
+
+
+    }
+}
